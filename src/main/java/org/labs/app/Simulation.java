@@ -1,6 +1,7 @@
 package org.labs.app;
 
 import org.labs.app.utils.SimulationStatisticsPrinter;
+import org.labs.config.WaiterConfig;
 import org.labs.messaging.MealBroker;
 import org.labs.config.ProgrammerConfig;
 import org.labs.config.SimulationConfig;
@@ -16,10 +17,18 @@ import java.util.concurrent.*;
 public class Simulation {
     private final SimulationConfig simulationConfig;
     private final ProgrammerConfig programmerConfig;
+    private final WaiterConfig waiterConfig;
+    private final SimulationStatisticsPrinter printer;
 
-    public Simulation(SimulationConfig simulationConfig, ProgrammerConfig programmerConfig){
+    public Simulation(SimulationConfig simulationConfig,
+                      ProgrammerConfig programmerConfig,
+                      WaiterConfig waiterConfig,
+                      SimulationStatisticsPrinter printer){
         this.simulationConfig = simulationConfig;
         this.programmerConfig = programmerConfig;
+        this.waiterConfig = waiterConfig;
+        this.printer = printer;
+
     }
 
     public void start() throws ExecutionException, InterruptedException {
@@ -32,7 +41,6 @@ public class Simulation {
         ExecutorService programmersPool = Executors.newFixedThreadPool(programmersCount);
         ExecutorService waitersPool = Executors.newFixedThreadPool(waitersCount);
         ScheduledExecutorService statisticsPool = Executors.newSingleThreadScheduledExecutor();
-        SimulationStatisticsPrinter printer = new SimulationStatisticsPrinter(System.out);
 
         List<Programmer> programmers = new ArrayList<>();
         List<Future<?>> tasks = new ArrayList<>();
@@ -40,7 +48,7 @@ public class Simulation {
         try {
             printer.printConfiguration(simulationConfig);
             for (int i = 0; i < waitersCount; i++) {
-                waitersPool.submit(new Waiter(i, mealBroker, kitchen));
+                waitersPool.submit(new Waiter(i, mealBroker, kitchen, waiterConfig));
             }
 
             for (int i = 0; i < programmersCount; i++) {

@@ -2,8 +2,8 @@ package org.labs.config;
 
 public record SimulationConfig(
         int programmersCount,
-        int mealsCount,
         int waitersCount,
+        int mealsCount,
         long statisticsReportInitialDelaySeconds,
         long statisticsReportIntervalSeconds
 ) {

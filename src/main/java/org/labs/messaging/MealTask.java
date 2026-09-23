@@ -18,4 +18,8 @@ public class MealTask {
     public void complete(MealOutcome mealOutcome){
         result.complete(mealOutcome);
     }
+
+    public void completeExceptionally(Throwable exception){
+        result.completeExceptionally(exception);
+    }
 }
