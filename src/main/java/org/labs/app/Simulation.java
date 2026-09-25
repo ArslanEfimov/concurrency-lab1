@@ -38,8 +38,8 @@ public class Simulation {
         Kitchen kitchen = new Kitchen(simulationConfig.mealsCount() - programmersCount);
         Spoon[] spoons = createSpoons(programmersCount);
         MealBroker mealBroker = new MealBroker(programmersCount);
-        ExecutorService programmersPool = Executors.newFixedThreadPool(programmersCount);
-        ExecutorService waitersPool = Executors.newFixedThreadPool(waitersCount);
+        ExecutorService programmersPool = Executors.newVirtualThreadPerTaskExecutor();
+        ExecutorService waitersPool = Executors.newVirtualThreadPerTaskExecutor();
         ScheduledExecutorService statisticsPool = Executors.newSingleThreadScheduledExecutor();
 
         List<Programmer> programmers = new ArrayList<>();

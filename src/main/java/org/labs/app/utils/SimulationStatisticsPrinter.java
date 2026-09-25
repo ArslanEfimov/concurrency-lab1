@@ -5,6 +5,8 @@ import org.labs.core.Programmer;
 import org.labs.core.Kitchen;
 
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.List;
 
 public class SimulationStatisticsPrinter {
@@ -44,6 +46,8 @@ public class SimulationStatisticsPrinter {
                 .append('\n');
 
         out.print(report);
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        out.println("Live threads " + threadMXBean.getThreadCount());
         out.flush();
     }
 }

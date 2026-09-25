@@ -6,8 +6,10 @@ import org.labs.config.ProgrammerConfig;
 import org.labs.messaging.MealOutcome;
 import org.labs.messaging.MealRequest;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.UnaryOperator;
 
 public class Programmer implements Runnable {
 
@@ -77,7 +79,7 @@ public class Programmer implements Runnable {
     }
 
     private CompletableFuture<MealOutcome> requestMeal() throws InterruptedException {
-        return mealBroker.submit(new MealRequest(id));
+        return mealBroker.submit(new MealRequest(id, eaten));
     }
 
     public long getId() {
